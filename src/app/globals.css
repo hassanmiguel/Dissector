@@ -408,8 +408,63 @@ html[data-hacker-theme] .card-soft::before {
   pointer-events: none;
 }
 
+/* ============================================================
+   RGB NEON LIGHTING
+   Decorative multicolour edge + aura used by the back button,
+   active nav item and the overview hero. Theme-agnostic so every
+   palette keeps its identity while still getting the "lit up" look.
+   ============================================================ */
+.rgb-edge {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    90deg,
+    #ff2d55,
+    #ffcc00,
+    #39ff14,
+    #00e5ff,
+    #b14cff,
+    #ff2d55
+  );
+  background-size: 300% 100%;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  animation: rgb-slide 4s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.rgb-glow {
+  box-shadow:
+    0 0 12px -3px rgba(255, 45, 85, 0.45),
+    0 0 20px -5px rgba(0, 229, 255, 0.4),
+    0 0 28px -7px rgba(177, 76, 255, 0.38);
+}
+
+.rgb-text {
+  background: linear-gradient(90deg, #ff5f8f, #ffd166, #53ff8a, #4deaff, #c97dff);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: rgb-slide 4s linear infinite;
+}
+
+@keyframes rgb-slide {
+  from { background-position: 0% 50%; }
+  to { background-position: 300% 50%; }
+}
+
 /* Respect users who prefer less motion. */
 @media (prefers-reduced-motion: reduce) {
+  .rgb-edge,
+  .rgb-text {
+    animation: none;
+  }
   html[data-hacker-theme] body::before {
     animation: none;
   }

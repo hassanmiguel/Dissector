@@ -120,7 +120,7 @@ export default function Sidebar({ onClose }) {
         {/* Logo */}
         <div className="px-6 py-4 flex flex-col gap-2">
           <Link href="/dashboard" className="flex items-center gap-3">
-            <div className="flex items-center justify-center size-9 rounded-[10px] bg-gradient-to-br from-brand-500 to-brand-700 shadow-[var(--shadow-warm)]">
+            <div className="rgb-glow flex items-center justify-center size-9 rounded-[10px] bg-gradient-to-br from-brand-500 to-brand-700 shadow-[var(--shadow-warm)]">
               <span className="material-symbols-outlined text-white text-[20px]">hub</span>
             </div>
             <div className="flex flex-col">
@@ -166,7 +166,7 @@ export default function Sidebar({ onClose }) {
               className={cn(
                 "flex items-center gap-3 px-3 py-1 rounded-lg transition-all group",
                 isActive(item.href)
-                  ? "bg-primary/10 text-primary"
+                  ? "bg-primary/10 text-primary rgb-glow"
                   : "text-text-muted hover:bg-surface-2 hover:text-text-main"
               )}
             >
@@ -194,7 +194,7 @@ export default function Sidebar({ onClose }) {
               className={cn(
                 "w-full flex items-center gap-3 px-3 py-1 rounded-lg transition-all group",
                 pathname.startsWith("/dashboard/media-providers")
-                  ? "bg-primary/10 text-primary"
+                  ? "bg-primary/10 text-primary rgb-glow"
                   : "text-text-muted hover:bg-surface-2 hover:text-text-main"
               )}
             >
@@ -214,7 +214,7 @@ export default function Sidebar({ onClose }) {
                     className={cn(
                       "flex items-center gap-3 px-4 py-1 rounded-lg transition-all group",
                       pathname.startsWith(`/dashboard/media-providers/${kind.id}`)
-                        ? "bg-primary/10 text-primary"
+                        ? "bg-primary/10 text-primary rgb-glow"
                         : "text-text-muted hover:bg-surface-2 hover:text-text-main"
                     )}
                   >
@@ -229,7 +229,7 @@ export default function Sidebar({ onClose }) {
                   className={cn(
                     "flex items-center gap-3 px-4 py-1 rounded-lg transition-all group",
                     pathname.startsWith(COMBINED_WEB_ITEM.href)
-                      ? "bg-primary/10 text-primary"
+                      ? "bg-primary/10 text-primary rgb-glow"
                       : "text-text-muted hover:bg-surface-2 hover:text-text-main"
                   )}
                 >
@@ -247,7 +247,7 @@ export default function Sidebar({ onClose }) {
                 className={cn(
                   "flex items-center gap-3 px-3 py-1 rounded-lg transition-all group",
                   isActive(item.href)
-                    ? "bg-primary/10 text-primary"
+                    ? "bg-primary/10 text-primary rgb-glow"
                     : "text-text-muted hover:bg-surface-2 hover:text-text-main"
                 )}
               >
@@ -274,7 +274,7 @@ export default function Sidebar({ onClose }) {
                   className={cn(
                     "flex items-center gap-3 px-3 py-1 rounded-lg transition-all group",
                     isActive(item.href)
-                      ? "bg-primary/10 text-primary"
+                      ? "bg-primary/10 text-primary rgb-glow"
                       : "text-text-muted hover:bg-surface-2 hover:text-text-main"
                   )}
                 >
@@ -335,7 +335,7 @@ export default function Sidebar({ onClose }) {
               className={cn(
                 "flex items-center gap-3 px-3 py-1 rounded-lg transition-all group",
                 isActive("/dashboard/profile")
-                  ? "bg-primary/10 text-primary"
+                  ? "bg-primary/10 text-primary rgb-glow"
                   : "text-text-muted hover:bg-surface-2 hover:text-text-main"
               )}
             >

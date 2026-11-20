@@ -240,6 +240,20 @@ export default function Header({ onMenuClick, showMenuButton = true }) {
         )}
       </div>
 
+      {/* Back to Overview */}
+      {pathname?.startsWith("/dashboard/") && (
+        <Link
+          href="/dashboard"
+          aria-label="Back to dashboard overview"
+          title="Back to Overview"
+          className="rgb-glow relative flex h-8 shrink-0 items-center gap-1.5 rounded-lg border border-primary/30 bg-primary/5 px-2.5 text-xs font-medium text-primary transition-colors hover:bg-primary/10 sm:px-3"
+        >
+          <span className="rgb-edge" aria-hidden="true" />
+          <span className="material-symbols-outlined relative z-[2] text-[18px]">arrow_back</span>
+          <span className="relative z-[2] hidden sm:inline">Overview</span>
+        </Link>
+      )}
+
       {/* Page title with breadcrumbs */}
       <div className="flex flex-col min-w-0 flex-1">
         {breadcrumbs.length > 0 ? (
@@ -290,7 +304,7 @@ export default function Header({ onMenuClick, showMenuButton = true }) {
                   {icon}
                 </span>
               )}
-              <h1 className="text-base lg:text-2xl font-semibold tracking-tight truncate">
+              <h1 className={`text-base lg:text-2xl font-semibold tracking-tight truncate ${pathname === "/dashboard" ? "rgb-text" : ""}`}>
                 {translate(title)}
               </h1>
             </div>

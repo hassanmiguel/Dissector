@@ -163,16 +163,17 @@ export default function DashboardOverview({ machineId }) {
   return (
     <div className="mx-auto flex w-full max-w-6xl flex-col gap-6">
       {/* Hero */}
-      <section className="card-elev relative overflow-hidden border border-border-subtle/70 p-5 sm:p-7">
+      <section className="card-elev rgb-glow relative overflow-hidden border border-border-subtle/70 p-5 sm:p-7">
+        <span className="rgb-edge" aria-hidden="true" />
         <div className="absolute -right-10 -top-16 size-56 rounded-full bg-primary/10 blur-3xl pointer-events-none" aria-hidden="true" />
-        <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="relative z-[2] flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-start gap-4">
             <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
               <span className="material-symbols-outlined text-[26px]">hub</span>
             </div>
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2">
-                <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-text-main">
+                <h1 className="rgb-text text-xl sm:text-2xl font-semibold tracking-tight">
                   Welcome to {APP_CONFIG.name}
                 </h1>
                 <span className="rounded-full border border-primary/30 bg-primary/10 px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-primary">
@@ -189,10 +190,11 @@ export default function DashboardOverview({ machineId }) {
           <div className="flex shrink-0 flex-wrap gap-2">
             <Link
               href="/dashboard/endpoint"
-              className="inline-flex items-center gap-2 rounded-lg bg-primary px-3.5 py-2 text-sm font-medium text-white shadow-sm transition-opacity hover:opacity-90"
+              className="rgb-glow relative inline-flex items-center gap-2 rounded-lg bg-primary px-3.5 py-2 text-sm font-medium text-white shadow-sm transition-opacity hover:opacity-90"
             >
-              <span className="material-symbols-outlined text-[18px]">api</span>
-              Open endpoint
+              <span className="rgb-edge" aria-hidden="true" />
+              <span className="material-symbols-outlined relative z-[2] text-[18px]">api</span>
+              <span className="relative z-[2]">Open endpoint</span>
             </Link>
             <Link
               href="/dashboard/providers"
@@ -225,12 +227,13 @@ export default function DashboardOverview({ machineId }) {
               <Link
                 key={feature.href}
                 href={feature.href}
-                className="card-soft group flex items-start gap-3 border border-border-subtle/60 p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-[var(--shadow-warm)]"
+                className="card-soft rgb-glow group relative flex items-start gap-3 border border-border-subtle/60 p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/50"
               >
-                <span className={`material-symbols-outlined text-[22px] ${feature.accent}`}>
+                <span className="rgb-edge" aria-hidden="true" />
+                <span className={`material-symbols-outlined relative z-[2] text-[22px] ${feature.accent}`}>
                   {feature.icon}
                 </span>
-                <span className="min-w-0 flex-1">
+                <span className="relative z-[2] min-w-0 flex-1">
                   <span className="flex items-center justify-between gap-2">
                     <span className="text-sm font-semibold text-text-main">{feature.title}</span>
                     <span className="material-symbols-outlined text-[16px] text-text-muted transition-transform group-hover:translate-x-0.5 group-hover:text-primary">
