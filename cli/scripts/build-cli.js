@@ -202,7 +202,10 @@ function buildCliPackage() {
   // Step 1: Build app with Next.js (workspace tracing root → traced node_modules in standalone).
   console.log("1️⃣  Building Next.js app...");
   try {
-    execSync("npm run build", {
+    // Webpack builds can take >10 minutes on this project and were the reason
+    // the packaged CLI bundle stayed stale. Turbopack produces the same
+    // standalone output in a fraction of the time.
+    execSync("npm run build:turbopack", {
       stdio: "inherit",
       cwd: appDir,
       env: {

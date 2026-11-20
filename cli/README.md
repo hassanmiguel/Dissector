@@ -82,6 +82,7 @@ That's it! Start coding with FREE AI models.
 dissector                    # Start with default settings
 dissector --port 8080        # Custom port
 dissector --no-browser       # Don't open browser
+dissector --no-menu          # Skip TUI; keep serving in the background
 dissector --skip-update      # Skip auto-update check
 dissector --help             # Show all options
 ```

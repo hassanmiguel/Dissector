@@ -85,9 +85,9 @@ Result: Never stop coding, minimal cost + 20-40% token savings via RTK
 
 **1. Run it (Windows — easiest):**
 
-Double-click **`RUN_DISSECTOR.bat`**. The menu lets you install dependencies, start the dev dashboard, build/start production, or start the CLI gateway.
+Double-click **`RUN_DISSECTOR.bat`**. Option **1** opens the running dashboard first and starts DEV automatically if nothing is listening; it checks the health endpoint before opening the browser so you don’t hit a blank/refused page. The menu also lets you start dev/production, build, install dependencies, or start the CLI gateway.
 
-🎉 Dashboard opens at `http://localhost:20127` • CLI gateway at `http://localhost:20128`
+🎉 Dashboard opens at `http://localhost:20127/dashboard` • CLI gateway at `http://localhost:20128/dashboard`
 
 On macOS/Linux, use the source commands below.
 

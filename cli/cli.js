@@ -147,6 +147,7 @@ const PROCESS_IDENTIFIERS = [
 let port = DEFAULT_PORT;
 let host = DEFAULT_HOST;
 let noBrowser = false;
+let noMenu = false;
 let skipUpdate = false;
 let showLog = false;
 let trayMode = false;
@@ -160,6 +161,8 @@ for (let i = 0; i < args.length; i++) {
     i++;
   } else if (args[i] === "--no-browser" || args[i] === "-n") {
     noBrowser = true;
+  } else if (args[i] === "--no-menu" || args[i] === "--server-only") {
+    noMenu = true;
   } else if (args[i] === "--log" || args[i] === "-l") {
     showLog = true;
   } else if (args[i] === "--skip-update") {
@@ -175,6 +178,7 @@ Options:
   -p, --port <port>   Port to run the server (default: ${DEFAULT_PORT})
   -H, --host <host>   Host to bind (default: ${DEFAULT_HOST})
   -n, --no-browser    Don't open browser automatically
+      --no-menu       Skip the interactive menu; open dashboard and keep serving
   -l, --log           Show server logs (default: hidden)
   -t, --tray          Run in system tray mode (background)
   --skip-update       Skip auto-update check
@@ -632,6 +636,11 @@ async function showInterfaceMenu(latestVersion) {
 
   const selected = await selectMenu(`Choose Interface (v${pkg.version})`, menuItems, 0, subtitle);
 
+  // selectMenu resolves -1 when stdin is not an interactive TTY (e.g. the
+  // launcher starts the CLI without a console). Treating that as "exit" used
+  // to tear the server down immediately and produce ERR_CONNECTION_REFUSED.
+  if (selected === -1) return "web-noninteractive";
+
   const offset = latestVersion ? 1 : 0;
 
   if (latestVersion && selected === 0) return "update";
@@ -808,6 +817,17 @@ function startServer(updatePromise) {
     // Start tray icon alongside TUI
     initTrayIcon();
 
+    // Non-interactive launches (the .bat launcher, CI, background starts) must
+    // never tear down the server just because there is no keyboard to read.
+    if (noMenu || !process.stdin.isTTY) {
+      if (!noBrowser) openBrowser(url);
+      console.log(`\nDashboard: ${url}`);
+      console.log("Server is running. Close this window or use the tray icon to quit.\n");
+      // Keep the event loop alive; signal/tray handlers perform cleanup.
+      await new Promise(() => {});
+      return;
+    }
+
     try {
       while (true) {
         const choice = await showInterfaceMenu(latestVersion);
@@ -823,6 +843,11 @@ function startServer(updatePromise) {
           await killAllAppProcesses(port);
           await killProcessOnPort(port);
           setTimeout(() => process.exit(0), 200);
+          return;
+        } else if (choice === "web-noninteractive") {
+          if (!noBrowser) openBrowser(url);
+          console.log(`\nDashboard: ${url}`);
+          await new Promise(() => {});
           return;
         } else if (choice === "web") {
           openBrowser(url);
@@ -886,6 +911,7 @@ function startServer(updatePromise) {
           console.log("\nExiting...");
           cleanup();
           setTimeout(() => process.exit(0), 100);
+          return;
         }
       }
     } catch (err) {
