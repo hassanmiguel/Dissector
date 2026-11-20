@@ -171,9 +171,9 @@ const getPageInfo = (pathname) => {
     };
   if (pathname === "/dashboard")
     return {
-      title: "Endpoint",
-      description: "API endpoint configuration",
-      icon: "api",
+      title: "Overview",
+      description: "Everything in Dissector, at a glance",
+      icon: "space_dashboard",
       breadcrumbs: [],
     };
   return { title: "", description: "", breadcrumbs: [] };
