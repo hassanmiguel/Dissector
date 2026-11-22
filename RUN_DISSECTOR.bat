@@ -119,7 +119,7 @@ goto :PAUSE_BACK
 cls
 echo.
 echo  === Building production app ===
-npm run build:turbopack
+call npm run build:turbopack
 if errorlevel 1 (
   echo  [ERROR] Build failed.
   goto :PAUSE_BACK
@@ -141,14 +141,14 @@ goto :PAUSE_BACK
 
 :DOINSTALL
 echo  [1/2] Root dependencies (npm install)...
-npm install
+call npm install
 if errorlevel 1 (
   echo  [ERROR] Root install failed.
   goto :DOINSTALL_END
 )
 if exist "cli\package.json" (
   echo  [2/2] CLI dependencies...
-  npm --prefix cli install
+  call npm --prefix cli install
   if errorlevel 1 echo  [WARN] CLI install failed - CLI features may not work.
 )
 echo  Setup finished.
@@ -172,13 +172,13 @@ if not exist "node_modules" (
 )
 if not exist "cli\node_modules\esbuild" (
   echo  CLI build dependencies missing - installing them now...
-  npm --prefix cli install
+  call npm --prefix cli install
   if errorlevel 1 (
     echo  [ERROR] CLI dependency install failed.
     exit /b 1
   )
 )
-npm --prefix cli run build
+call npm --prefix cli run build
 if errorlevel 1 (
   echo  [ERROR] CLI build failed.
   exit /b 1
