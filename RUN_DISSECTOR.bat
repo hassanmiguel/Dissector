@@ -9,6 +9,10 @@ set "DEV_PORT=20127"
 set "CLI_PORT=20128"
 set "CLI_STAMP=cli\app\.build-stamp"
 
+rem npm is a .cmd batch file. Inside a subroutine called with CALL :LABEL,
+rem it must also be invoked with CALL or cmd.exe re-enters the label context
+rem and fails with "The system cannot find the batch label specified".
+
 echo.
 echo  Checking environment...
 node -v >nul 2>&1
