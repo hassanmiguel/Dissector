@@ -63,6 +63,12 @@ goto :MENU
 cls
 echo.
 echo  === Starting DEV dashboard (port %DEV_PORT%) ===
+call :ISUP %DEV_PORT%
+if not errorlevel 1 (
+  echo  Dashboard is already running - opening it in your browser.
+  start "" "http://localhost:%DEV_PORT%/dashboard"
+  goto :PAUSE_BACK
+)
 if not exist "node_modules" (
   echo  Dependencies not found - running setup first...
   echo.
@@ -83,13 +89,19 @@ goto :PAUSE_BACK
 cls
 echo.
 echo  === Starting PRODUCTION server (port %DEV_PORT%) ===
+call :ISUP %DEV_PORT%
+if not errorlevel 1 (
+  echo  Dashboard is already running - opening it in your browser.
+  start "" "http://localhost:%DEV_PORT%/dashboard"
+  goto :PAUSE_BACK
+)
 if not exist "node_modules" (
   echo  Dependencies not found - running setup first...
   echo.
   call :DOINSTALL
 )
-if not exist ".next" (
-  echo  [ERROR] No production build found. Run option [3] first.
+if not exist ".next\BUILD_ID" (
+  echo  [ERROR] No production build found. Run option [4] first.
   goto :PAUSE_BACK
 )
 start "Dissector PROD" cmd /k "npm start"
@@ -107,9 +119,14 @@ goto :PAUSE_BACK
 cls
 echo.
 echo  === Building production app ===
-npm run build
+npm run build:turbopack
 if errorlevel 1 (
   echo  [ERROR] Build failed.
+  goto :PAUSE_BACK
+)
+node scripts/copy-standalone-assets.mjs
+if errorlevel 1 (
+  echo  [ERROR] Failed to copy standalone assets.
   goto :PAUSE_BACK
 )
 echo  Build completed.
@@ -174,6 +191,12 @@ exit /b 0
 cls
 echo.
 echo  === Starting CLI gateway (port %CLI_PORT%) ===
+call :ISUP %CLI_PORT%
+if not errorlevel 1 (
+  echo  CLI gateway is already running - opening it in your browser.
+  start "" "http://localhost:%CLI_PORT%/dashboard"
+  goto :PAUSE_BACK
+)
 if not exist "cli\app\custom-server.js" (
   echo  CLI package not built - building it now...
   call :DOCLIBUILD
@@ -223,9 +246,9 @@ cls
 echo.
 echo  === Status ===
 echo   Node.js      : !NODEVER!
-if exist "node_modules" (echo   Dependencies  : installed) else (echo   Dependencies  : MISSING - run option 4)
-if exist ".next" (echo   Prod build    : present) else (echo   Prod build    : none - run option 3)
-if exist "cli\app\custom-server.js" (echo   CLI package   : built) else (echo   CLI package   : not built - run option 5)
+if exist "node_modules" (echo   Dependencies  : installed) else (echo   Dependencies  : MISSING - run option 5)
+if exist ".next\BUILD_ID" (echo   Prod build    : present) else (echo   Prod build    : none - run option 4)
+if exist "cli\app\custom-server.js" (echo   CLI package   : built) else (echo   CLI package   : not built - run option 6)
 call :ISUP %DEV_PORT%
 if errorlevel 1 (echo   Dashboard    : OFFLINE on port %DEV_PORT%) else (echo   Dashboard    : ONLINE  on port %DEV_PORT%)
 call :ISUP %CLI_PORT%
@@ -255,7 +278,7 @@ goto :WAITUP_LOOP
 rem :CLISTALE - errorlevel 1 when cli\app is missing/stamp old.
 :CLISTALE
 if not exist "%CLI_STAMP%" exit /b 1
-powershell -NoProfile -Command "$stamp='%CLI_STAMP%'; $files=@('package.json','src\app\(dashboard)\dashboard\page.js','src\shared\components\DashboardOverview.js','src\app\globals.css','cli\cli.js','cli\scripts\build-cli.js'); $newest=$null; foreach($f in $files){ if(Test-Path -LiteralPath $f){ $i=Get-Item -LiteralPath $f; if(-not $newest -or $i.LastWriteTime -gt $newest.LastWriteTime){$newest=$i} } }; if(-not $newest -or (Get-Item -LiteralPath $stamp).LastWriteTime -lt $newest.LastWriteTime){exit 1}else{exit 0}" >nul 2>&1
+powershell -NoProfile -Command "$stamp='%CLI_STAMP%'; $files=@('package.json','src\app\(dashboard)\dashboard\page.js','src\shared\components\DashboardOverview.js','src\shared\components\Header.js','src\shared\components\Sidebar.js','src\app\globals.css','cli\cli.js','cli\scripts\build-cli.js'); $newest=$null; foreach($f in $files){ if(Test-Path -LiteralPath $f){ $i=Get-Item -LiteralPath $f; if(-not $newest -or $i.LastWriteTime -gt $newest.LastWriteTime){$newest=$i} } }; if(-not $newest -or (Get-Item -LiteralPath $stamp).LastWriteTime -lt $newest.LastWriteTime){exit 1}else{exit 0}" >nul 2>&1
 exit /b %errorlevel%
 
 :PAUSE_BACK

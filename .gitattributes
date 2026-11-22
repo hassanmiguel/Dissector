@@ -1,0 +1,3 @@
+# Windows batch launchers require CRLF line endings for goto/call labels.
+*.bat text eol=crlf
+*.cmd text eol=crlf
