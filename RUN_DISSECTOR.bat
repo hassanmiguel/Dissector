@@ -213,8 +213,11 @@ if not exist "cli\app\custom-server.js" (
     if errorlevel 1 goto :PAUSE_BACK
   )
 )
-rem --no-menu keeps the gateway alive even when the window has no TTY.
-start "Dissector CLI" cmd /k "node cli\cli.js -p %CLI_PORT% --no-menu --no-browser"
+rem Keep the interactive menu enabled: that is where "Terminal UI > CLI Tools"
+rem lists OpenCode, Claude Code, Codex, Droid, Open Claw and Hermes, and where
+rem "Launch OpenCode (App)" lives. cli.js still stays alive without a TTY
+rem (selectMenu returns -1 and it serves in the background).
+start "Dissector CLI" cmd /k "node cli\cli.js -p %CLI_PORT% --no-browser"
 call :WAITUP %CLI_PORT% 90
 if errorlevel 1 (
   echo  [ERROR] CLI gateway did not become ready on port %CLI_PORT%.
@@ -223,6 +226,8 @@ if errorlevel 1 (
 )
 start "" "http://localhost:%CLI_PORT%/dashboard"
 echo  CLI gateway launched in a new window.
+echo  In that window: Terminal UI  -^> CLI Tools  -^> pick OpenCode, Claude, Codex, etc.
+echo  Or choose "Launch OpenCode (App)" to open it directly.
 goto :PAUSE_BACK
 
 :OPENBROWSER

@@ -87,6 +87,8 @@ Result: Never stop coding, minimal cost + 20-40% token savings via RTK
 
 Double-click **`RUN_DISSECTOR.bat`**. Option **1** opens the running dashboard first; if nothing is listening it starts the existing production build (falling back to DEV only when no build exists), then waits for the health endpoint before opening the browser so you never hit a blank/refused page. The menu also lets you start dev/production, build, install dependencies, or start the CLI gateway.
 
+The **CLI gateway** window opens an interactive menu. Choose **Terminal UI → CLI Tools** to select and launch OpenCode, Claude Code, Codex CLI, Factory Droid, Open Claw, or Hermes in their own windows; **Launch OpenCode (App)** opens OpenCode directly. The CLI tools must already be installed on your PATH (`where opencode`, `where claude`, etc.).
+
 🎉 Dashboard opens at `http://localhost:20127/dashboard` • CLI gateway at `http://localhost:20128/dashboard`
 
 On macOS/Linux, use the source commands below.
